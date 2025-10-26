@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Book Reservation - Welcome and choose a Book</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        .book-option {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .book-option:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to our Book Reservation App</h1>
+</header>
+<main>
+    <form th:action="@{/}" th:method="POST">
+        <h2>Look for a book:</h2>
+        <input type="text" id="book" name="title" placeholder="eg: Lord of the rings">
+        <label for="book"></label>
+        <br>
+        <input type="number" id="book_rating" name="rating" step="0.1" placeholder="eg: 4.5">
+        <label for="book_rating"></label>
+        <br>
+        <button type="submit" name="action" value="search">Search</button>
+        <button type="submit" name="action" value="reset">Reset</button>
+    </form>
+    <form action="/bookReservation" method="POST">
+        <h2>Choose a book:</h2>
+
+        <div th:if="${booksSearched!=null}" th:each="book: ${booksSearched}">
+            <input type="radio" th:id="${book.title}" name="title" th:value="${book.title}">
+            <label th:for="${book.title}"
+                   th:text="'Title: ' + ${book.title} + ', Genre: ' + ${book.genre} + ', Rating: ' + ${book.averageRating}"></label>
+        </div>
+
+        <div th:if="${#lists.isEmpty(booksSearched)}" th:each="book: ${books}">
+            <input type="radio" th:id="${book.title}" name="title" th:value="${book.title}">
+            <label th:for="${book.title}"
+                   th:text="'Title: ' + ${book.title} + ', Genre: ' + ${book.genre} + ', Rating: ' + ${book.averageRating}"></label>
+        </div>
+
+        <h2>Enter your information:</h2>
+        <label>Your Name:</label>
+        <input type="text" name="readerName" required><br/>
+        <label>Your Address:</label>
+        <input type="text" name="readerAddress" required><br/>
+
+        <h2>Choose number of copies:</h2>
+        <input type="number" name="numCopies" min="1" max="10" required><br/>
+        <br/>
+        <input type="submit" value="Reserve Book">
+    </form>
+</main>
+</body>
+</html>
