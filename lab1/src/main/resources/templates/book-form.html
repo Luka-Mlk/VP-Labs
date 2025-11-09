@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Book</title>
+</head>
+<body>
+    <form th:action="${book} ? @{/books/edit/{id}(id=${book.id})} : @{/books/add}" method="POST">
+        <label for="title"></label>
+        <input type="text" id="title" th:value="${book?.title}" name="title" placeholder="наслов">
+        <label for="genre"></label>
+        <input type="text" id="genre" th:value="${book?.genre}" name="genre" placeholder="жанр">
+        <label for="averageRating"></label>
+        <input type="number" step="0.1" id="averageRating" th:value="${book?.averageRating}" name="averageRating" placeholder="рејтинг">
+        <label for="authorId">Автор:</label>
+        <select id="authorId" name="authorId" required>
+            <option
+                th:each="author : ${authors}"
+                th:value="${author.id}"
+                th:text="${author.name + ' ' + author.surname}"
+
+                th:selected="${book != null && author.id == book.author.id}">
+            </option>
+        </select>
+        <br/>
+        <button type="submit"
+                th:text="${book} ? 'Зачувај Промени' : 'Додај Книга'">
+            Submit
+        </button>
+    </form>
+</body>
+</html>

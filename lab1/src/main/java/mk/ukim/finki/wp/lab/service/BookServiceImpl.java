@@ -18,6 +18,22 @@ public class BookServiceImpl implements BookService{
         return this.bookRepository.findAll();
     }
 
+    public Book create(String title, String genre, double averageRating, Long authorId) {
+        return this.bookRepository.create(title, genre, averageRating, authorId);
+    }
+
+    public Book getById(Long id) {
+        return this.bookRepository.getById(id);
+    }
+
+    public Book update(Long id, String title, String genre, Double averageRating, Long authorId) {
+        return bookRepository.update(id, title, genre, averageRating, authorId);
+    }
+
+    public String delete(Long id) {
+        return bookRepository.delete(id);
+    }
+
     public List<Book> searchBooks(String text, Double rating) {
         return this.bookRepository.searchBooks(text, rating);
     }
