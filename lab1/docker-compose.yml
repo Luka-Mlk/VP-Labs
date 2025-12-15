@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgres:17.4
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: book_app
+    # volumes:
+    #   - pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+# volumes:
+#   pgdata:

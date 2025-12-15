@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/books")
@@ -27,11 +28,12 @@ public class BookController {
             model.addAttribute("error", error);
         }
 
-        List<Book> books = bookService.listAll();
+        List<Book> books = bookService.listAll(); // Use the service method that fetches from the DB
 
         model.addAttribute("books", books);
+
         return "listBooks";
-    };
+    }
 
     @PostMapping("/add")
     public String saveBook(
@@ -64,23 +66,29 @@ public class BookController {
 
     @GetMapping("/book-form/{id}")
     public String getEditBookForm(@PathVariable Long id, Model model) {
-        Book bookToEdit = bookService.getById(id);
+        Optional<Book> bookToEdit = bookService.getById(id);
 
-        if (bookToEdit == null) {
+        if (bookToEdit.isEmpty()) {
             return "redirect:/books?error=BookNotFound";
-
         } else {
             List<Author> authors = authorService.findAll();
-            model.addAttribute("book", bookToEdit);
+            model.addAttribute("book", bookToEdit.get());
             model.addAttribute("authors", authors);
-            return "book-form";
+            return "book-form";  // Return the edit form view
         }
     }
 
+    // Display the form for adding a new book
     @GetMapping("/book-form")
     public String getAddBookPage(Model model) {
         List<Author> authors = authorService.findAll();
         model.addAttribute("authors", authors);
-        return "book-form";
+        return "book-form";  // Return the form for adding a new book
+    }
+
+    @GetMapping("/books/{author-id}")
+    public List<Book> getBooksByAuthorId(@PathVariable("author-id") Long authorId) {
+       return bookService.findAllByAuthor_Id(authorId);
+
     }
 }

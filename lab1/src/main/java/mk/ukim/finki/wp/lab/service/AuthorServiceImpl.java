@@ -8,6 +8,7 @@ import java.util.List;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
+
     public final AuthorRepository authorRepository;
 
     public AuthorServiceImpl(AuthorRepository authorRepository) {
